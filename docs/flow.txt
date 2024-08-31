@@ -1,0 +1,33 @@
+
+Global Timestamp
+Global TotalNumberOfSeeks
+
+DataService
+ - is obtained from APIGateway (Rest) API that is backed by Lambda that is getting data from DynamoDB
+
+ |
+ V
+ 
+JsonDataBuffer 
+ - is a common class that is to be used to load Json Data
+ - pass position data or any other json data from the rest api service
+ - orchestrate
+
+1) As the video buffer is progressing or seeked to a different position, the global timestamp is changed.
+2) On event global timestamp changed, the components will fetch the data for the next 6 seconds beginning at the stored timestamp to next 6 seconds from the 
+data service and store it in-memory. 
+3) Each component keeps track of data being displayed. 
+4) As the seek pointer comes closer to the end of the buffer, data is fetched again from the data service into the next page. 
+5) When it's the end, the data is cleared from page 1 and Page 2 becomes main page.
+
+tempPage = mainPage;
+mainPage = secondPage;
+secondPage = tempPage;
+
+
+
+
+
+
+
+
